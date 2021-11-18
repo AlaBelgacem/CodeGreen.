@@ -1,0 +1,20 @@
+.barre
+{
+    width:1800px;
+    height:70px;
+    position:absolute;
+    background: #303030;
+    top:2px;
+    
+}
+body
+{
+    background-color: rgb(192, 192, 192);
+}
+.menu
+{
+    width:400px;
+    height:2000px;
+    position:absolute;
+    background: #ffffff; 
+}
