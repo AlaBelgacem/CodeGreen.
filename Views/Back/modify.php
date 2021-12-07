@@ -124,13 +124,14 @@ if (isset($_GET['IdArticle'])){
                 <label for="QuantiteArticle">Product quantity: </label>
                 <input value="<?= $row['QuantiteArticle']?>" type="text" tabindex="7" name="QuantiteArticle" id="QuantiteArticle" >
             </fieldset>
+           
             <fieldset>
-                <button name="modifier" type="submit" id="contact-submit" class="btn btn-warning" >Submit</button>
+                <button name="modifier" type="submit" id="contact-submit" class="btn btn-warning" >Submit</button> 
             </fieldset> 
             <fieldset>           
             <button href="AfficherProduitsAd.php" class="btn btn-warning">Cancel</button>
             </fieldset>           
-
+            
         </form>
 
         <p><a href="AfficherProduitsAd.php">Back to the products list</a></p>

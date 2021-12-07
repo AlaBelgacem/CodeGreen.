@@ -72,18 +72,18 @@ if (
       <div class="square" style="--i:5;"></div>
       
      <div class="containerA"> 
-      <div class="form"> 
+      <div class="form" style="font-size:15px"> 
    
         <h2>Add Product</h2>
         
-        <form id="AjoutArticle" method="post">
-            <h3>Add Product</h3>
+        <form id="AjoutArticle" method="post" >
+            
             <fieldset>
                 <!--<input placeholder="Id de l'article" type="text" tabindex="1" name="IdArticle" id="IdArticle" >
             </fieldset>-->
             <fieldset>
-                <label for="Id Categorie">Category : </label>
-                <select name="IdCategorie" id="IdCategorie" tabindex=1 placeholder="Select ID">
+                <label for="Id Categorie" >Category : </label>
+                <select name="IdCategorie" id="IdCategorie"  tabindex=1 placeholder="Select ID">
                 <option value="">  --SELECT--  </option>
                 <?php
                  $cat=new categorieC();
@@ -104,16 +104,16 @@ if (
                 <input placeholder="photo" type="file" tabindex="4" name="ImageArticle" accept="image/png, image/jpeg" id="ImageArticle" >
              </fieldset>
             <fieldset>
-            <label for="Description">Description: </label>
+            <label for="Description" style="text-align:start">Description: </label>
                 <textarea tabindex="5" name="DescriptionArticle" id="DescriptionArticle" pattern="[0-9a-zA-Z-\.]{0,12}"></textarea>
             </fieldset>
             <fieldset>
             <label for="PrixArticle">Product price: </label>
-                <input  type="text" tabindex="6" name="PrixArticle" id="PrixArticle" >
+                <input  type="number" tabindex="6" name="PrixArticle" id="PrixArticle" min="15" max="200"oninput="validity.valid||(value='') >
             </fieldset>
             <fieldset>
             <label for="QuantiteArticle">Product quantity: </label>
-                <input  type="text" tabindex="7" name="QuantiteArticle" id="QuantiteArticle" >
+                <input  type="number" tabindex="7" name="QuantiteArticle" id="QuantiteArticle" min="5" max="100" oninput="validity.valid||(value='')  >
             </fieldset>
             <br><br>
             <fieldset>

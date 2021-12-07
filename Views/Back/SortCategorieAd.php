@@ -5,7 +5,7 @@
   include_once "../../config.php";
   include_once "../../Controller/ArticleC.php";
   include_once "../../Controller/CategorieC.php";
-  $con=mysqli_connect("localhost","root","","codegreen");
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <title>
-    Products
+   Category
   </title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
   <!--     Fonts and icons     -->
@@ -30,30 +30,6 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
-  <!--chart-->
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript"> 
-     google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-                   ['NomArticle','QuantiteArticle'],
-                   <?php
-                   $sql="SELECT * FROM article";
-                   $fire=mysqli_query($con,$sql);
-                   while($chat=mysqli_fetch_array($fire)){
-                     echo "['".$chat["NomArticle"]."',".$chat["QuantiteArticle"]."],";
-                   }
-                  ?>
-                  ]);
-
-        var options = {
-          title: 'Products depending on its quantity',
-        };
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-        chart.draw(data, options);
-      }
-     </script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -72,7 +48,7 @@
 
 
       <li class="nav-item">
-          <a class="nav-link text-white active " href="AfficherCategorieAd.php">
+          <a class="nav-link text-white active bg-gradient-primary" href="AfficherCategorieAd.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -81,7 +57,7 @@
         </li>
         
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-primary " href="AfficherProduitsAd.php">
+          <a class="nav-link text-white active " href="AfficherProduitsAd.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -116,91 +92,80 @@
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-    
-      <div class="row">
+    <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Product table</h6>
+                <h6 class="text-white text-capitalize ps-3">Category table</h6>
               </div>
-              
             </div>
             <div>
-              <h5 style="padding-top : 10px"><a href="AjouterProduitsAd.php" id="AjouterProduits" 
-              style="background-color : pink; border-radius : 0.45rem;">Add product</a></h5>
+              <h5 style="padding-top : 10px"><a style="background-color : pink; border-radius : 0.45rem;"
+               href="AjouterCategorieAd.php" id="AjouterCategorie">Add category</a></h5>
             </div>
             <div class="container my-2">
          
-         <span><a href="SortProduitsAd.php" style="margin-right : 10px; background-color: white;color: black;" id="Sort"><i class="bi bi-search fa-lg"></i></a></span>
-              <input class="col-10" type="text" name="AfficherClasse" onkeyup="myFunction2()" placeholder="Search for a product name" id="myInput2">
-                      <a onclick="window.print();" class="btn btn-primary" style=" margin-left : 30px; margin-top : 10px;" id="print-btn">Print</a>
-                    
+            <span><a href="SortCategorieAd.php" style=" margin-right : 10px; background-color: white;color: black; " id="Sort"><i class="bi bi-search fa-lg"></i></a></span>
+              <input class="col-10" type="text" name="AfficherClasse" onkeyup="myFunction1()" placeholder="Search for a category name" id="myInput1">
+              <a onclick="window.print();" class="btn btn-primary" style=" margin-left : 30px; margin-top : 10px;"  id="print-btn">Print</a>
+
         </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0" id="mytable2" name="TableauProduits">
+                <table class="table align-items-center justify-content-center mb-0" id="mytable1">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product name</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product price</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category name </th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category ID</th>
 
-                      <th class="text-secondary opacity-7"></th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">category description</th>
+                      
+                      <th></th>
                     </tr>
                   </thead>
                   <?php
-                  $art=new articleC();
-                  $liste=$art->afficherArticles();
-                  foreach($liste as $aux) {?>
+                  $cat=new categorieC();
+                  $liste=$cat->TriCategoriesAd();
+                  foreach($liste as $row) {?>
                   <tbody>
                     <tr>
                       <td>
-                        <div class="d-flex px-2 py-1">
-                          
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm"><?php echo $aux["NomArticle"];?></h6>
-                            <p class="text-xs text-secondary mb-0"><?php echo 'Product ID: ' . $aux["IdArticle"];?></p>
+                        <div class="d-flex px-2">
+                          <div class="my-auto">
+                          <h6 class="mb-0 text-sm"><?php echo $row["NomCategorie"];?></h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0"><?php echo $aux["DescriptionArticle"];?></p>
-                        <p class="text-xs font-weight-bold mb-0"><?php echo 'Quantity: '. $aux["QuantiteArticle"];?></p>
-
+                        <p class="text-sm font-weight-bold mb-0"><?php echo $row["IdCategorie"];?></p>
                       </td>
-                      <td class="align-middle text-center text-sm">
-                        <p class="text-xs font-weight-bold mb-0"><?php echo $aux["IdCategorie"];?></p>
-
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $aux["PrixArticle"]. 'DT';?></span>
+                      <td>
+                        <p class="text-sm font-weight-bold mb-0"><?php echo $row["Description"];?></p>
                       </td>
                       <td class="align-middle">
-                      <a class="badge badge-sm bg-gradient-success" href="ModifierArticle.php?IdArticle=<?= $aux['IdArticle']?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit article" id="Edit">
+                      <a  class="badge badge-sm bg-gradient-success" href="ModifierCategorie.php?IdCategorie=<?= $row["IdCategorie"]?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit categorie" id="Edit">
                           Edit
                         </a>
                       </td>
                       <td class="align-middle">
-                      <a class="badge badge-sm bg-gradient-danger" onclick="return confirm('Are you sure ?')" href="SupprimerArticle.php?IdArticle=<?= $aux['IdArticle']?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="delete article" id="Delete">
+                      <a class="badge badge-sm bg-gradient-danger" onclick="return confirm('Are you sure ?')" href="SupprimerCategorie.php?IdCategorie=<?= $aux['IdCategorie']?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="delete categorie" id="Delete">
                       Delete
                         </a>
                       </td>
-                    </tr>
-                    
+                      
                   </tbody>
                   <?php }?>
+
                 </table>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div id="piechart" style="width: 900px; height: 500px;"  ></div>
-
+  
+   
     </div>
-
   </main>
   <div class="fixed-plugin">
     
@@ -262,33 +227,30 @@
       </div>
     </div>
   </div>
-
-<!-- print-->
-<link rel="stylesheet" type="text/css" href="print.css" media="print"/>
-
   <script>
-id="mytable2"
-function myFunction2() {
-var input, filter, table, tr, td, i,j, txtValue;
-input = document.getElementById("myInput2");
-filter = input.value.toUpperCase();
-table = document.getElementById("mytable2");
-tr = table.getElementsByTagName("tr");
-//   alert(td.length);
-    for (i = 0; i < tr.length; i++) {
-        td= tr[i].getElementsByTagName("td")[0];
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
+         id="mytable1"
+         function myFunction1() {
+        var input, filter, table, tr, td, i,j, txtValue;
+        input = document.getElementById("myInput1");
+        filter = input.value.toUpperCase();
+      table = document.getElementById("mytable1");
+      tr = table.getElementsByTagName("tr");
+      //   alert(td.length);
+             for (i = 0; i < tr.length; i++) {
+                 td= tr[i].getElementsByTagName("td")[0];
+                 if (td) {
+                     txtValue = td.textContent || td.innerText;
+                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                         tr[i].style.display = "";
+                     } else {
+                         tr[i].style.display = "none";
+                     }
+                        }
+                                        }
+}
 
-}
-}
 </script>
+
 
 
   <!--   Core JS Files   -->

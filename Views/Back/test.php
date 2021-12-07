@@ -1,14 +1,4 @@
-<?php
-  include "../../Model/Articles.php";
-  include "../../Model/Categorie.php";
-
-  include_once "../../config.php";
-  include_once "../../Controller/ArticleC.php";
-  include_once "../../Controller/CategorieC.php";
-  $con=mysqli_connect("localhost","root","","codegreen");
-?>
-<!DOCTYPE html>
-<html lang="en">
+<HTML>
 
 <head>
   <meta charset="utf-8" />
@@ -30,30 +20,6 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
-  <!--chart-->
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript"> 
-     google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-                   ['NomArticle','QuantiteArticle'],
-                   <?php
-                   $sql="SELECT * FROM article";
-                   $fire=mysqli_query($con,$sql);
-                   while($chat=mysqli_fetch_array($fire)){
-                     echo "['".$chat["NomArticle"]."',".$chat["QuantiteArticle"]."],";
-                   }
-                  ?>
-                  ]);
-
-        var options = {
-          title: 'Products depending on its quantity',
-        };
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-        chart.draw(data, options);
-      }
-     </script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -139,59 +105,81 @@
         </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0" id="mytable2" name="TableauProduits">
+              <form id="contact" action="" method="post" name='registration'>
+              <table class="table align-items-center mb-0" id="mytable2" name="TableauProduits">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product name</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category ID</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product ID</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category ID</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product Image</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product price</th>
-
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product Quantity</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
                   <?php
-                  $art=new articleC();
-                  $liste=$art->afficherArticles();
-                  foreach($liste as $aux) {?>
+                    include "../../Model/articles.php";
+
+                    include_once "../../config.php";
+                    include_once "../../Controller/articleC.php";
+
+                    if (isset($_GET['IdArticle'])){
+	                    $ArtC=new articleC();
+                        $result=$ArtC->getArticleById($_GET["IdArticle"]);
+	                    foreach($result as $row){       
+                      
+                    ?>
                   <tbody>
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
-                          
+                        <input value="<?= $row['IdArticle']?>" type="text" tabindex="1" name="IdArticle" id="IdArticle" readonly>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm"><?php echo $aux["NomArticle"];?></h6>
-                            <p class="text-xs text-secondary mb-0"><?php echo 'Product ID: ' . $aux["IdArticle"];?></p>
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0"><?php echo $aux["DescriptionArticle"];?></p>
-                        <p class="text-xs font-weight-bold mb-0"><?php echo 'Quantity: '. $aux["QuantiteArticle"];?></p>
-
+                      <input value="<?= $row['IdCategorie']?>" type="text" tabindex="2" name="IdCategorie" id="IdCategorie" readonly >
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <p class="text-xs font-weight-bold mb-0"><?php echo $aux["IdCategorie"];?></p>
+                      <input value="<?= $row['NomArticle']?>" type="text"  tabindex="3" name="NomArticle" id="NomArticle" >
 
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $aux["PrixArticle"]. 'DT';?></span>
+                      <input value="<?= $row['ImageArticle']?>" type="text" tabindex="4" name="ImageArticle" accept="image/png, image/jpeg" id="ImageArticle" >
+                      </td>
+                      <td class="align-middle text-center">
+                      <input value="<?= $row['DescriptionArticle']?>" tabindex="5" name="Description" id="Description" >
+                      </td>
+                      <td class="align-middle text-center">
+                      <input value="<?= $row['PrixArticle']?>" type="number" tabindex="6" name="PrixArticle" id="PrixArticle"  min="5" max="100" oninput="validity.valid||(value='')" >
+                      </td>
+                      <td class="align-middle text-center">
+                      <input value="<?= $row['QuantiteArticle']?>" type="number" tabindex="7" name="QuantiteArticle" id="QuantiteArticle"  min="15" max="100" oninput="validity.valid||(value='')" >
                       </td>
                       <td class="align-middle">
-                      <a class="badge badge-sm bg-gradient-success" href="ModifierArticle.php?IdArticle=<?= $aux['IdArticle']?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit article" id="Edit">
-                          Edit
-                        </a>
+                      <button name="modifier" type="submit" id="contact-submit" class="btn btn-warning" style=" border-color :#ff0059 ;background: #ff0059;" >Submit</button>
                       </td>
                       <td class="align-middle">
-                      <a class="badge badge-sm bg-gradient-danger" onclick="return confirm('Are you sure ?')" href="SupprimerArticle.php?IdArticle=<?= $aux['IdArticle']?>" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="delete article" id="Delete">
-                      Delete
-                        </a>
+                      <button href="AfficherProduitsAd.php" class="btn btn-warning" style=" border-color :#ff0059; background: #ff0059;">Cancel</button>
                       </td>
                     </tr>
                     
                   </tbody>
-                  <?php }?>
+                  <?php }
+                }
+                if (isset($_POST['modifier'])){
+                    $Art=new articles($_POST['IdCategorie'],$_POST['NomArticle'],$_POST['ImageArticle'],$_POST['Description'],$_POST['PrixArticle'],$_POST['QuantiteArticle']);
+                    $ArtC-> UpdateArticle($Art,$_POST['IdArticle']);
+                    
+                    header('refresh:1 ;url=AfficherProduitsAd.php');
+                }
+                ?>
                 </table>
+              </form>
+
               </div>
             </div>
           </div>
@@ -311,4 +299,4 @@ tr = table.getElementsByTagName("tr");
   <script src="../assets/js/material-dashboard.min.js?v=3.0.0"></script>
 </body>
 
-</html>
+</HTML>

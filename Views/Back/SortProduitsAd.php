@@ -127,7 +127,7 @@
               
             </div>
             <div>
-              <h5 style="padding-top : 10px"><a href="AjouterProduitsAd.php" id="AjouterProduits" 
+              <h5 style="padding-top : 10px"><a href="AjouterProduitsAd.php" id="AjouterProduit" 
               style="background-color : pink; border-radius : 0.45rem;">Add product</a></h5>
             </div>
             <div class="container my-2">
@@ -152,7 +152,7 @@
                   </thead>
                   <?php
                   $art=new articleC();
-                  $liste=$art->afficherArticles();
+                  $liste=$art->TriArticlesAd();
                   foreach($liste as $aux) {?>
                   <tbody>
                     <tr>

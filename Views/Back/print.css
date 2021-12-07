@@ -1,0 +1,56 @@
+@page
+{
+    margin:0;
+    size:A4;
+}
+#print-btn
+{
+    display:none;
+    visibility:none;
+}
+#Ajouterarticle
+{
+    display:none;
+    visibility:none;
+}
+#Sort
+{
+    display:none;
+    visibility:none;
+}
+#myInput1
+{
+    display:none;
+    visibility:none;
+}
+#myInput2
+{
+    display:none;
+    visibility:none;
+}
+#AjouterProduits
+{
+    display:none;
+    visibility:none;
+}
+#AjouterCategorie
+{
+    display:none;
+    visibility:none;  
+}
+
+#TableauProduits
+{
+    display:none;
+    visibility:none;
+}
+#Edit
+{
+    display:none;
+    visibility:none;
+}
+#Delete
+{
+    display:none;
+    visibility:none;
+}
