@@ -13,7 +13,7 @@
     <style>
         img{
             width:auto;
-            height : 450px;
+            height: 450px;
         }
     </style>
 </head>
@@ -83,28 +83,27 @@
             <div class="row">
                 <div class="col-md-6 mx-auto text-center mb-5 section-heading">
                     <h2 class="mb-5 line">
-                       OUR PRODUCTS
+                    <a href="AfficherArticlesClient.php" style="color: black;"> OUR PRODUCTS </a>
                     </h2>
                 </div>
             </div>
             <div style="text-align:right; margin-bottom :30px;"  >
                 <a class="nav-link" href="ArticlesPlusCher.php"><span style="color : black; font-size : 15px;"><i class="bi bi-sort-down-alt fa-2x"></i></span> </a>
-                <a class="nav-link" href="ArticlesMoinsCher.php"> <span  style="color : black; font-size : 15px"><i class="bi bi-sort-down fa-2x"></i></span> </a>
+                <a class="nav-link" href="ArticlesMoinsCher.php"> <span  style="color : grey; font-size : 15px"><i class="bi bi-sort-down fa-2x"></i></span> </a>
             </div>
             <div class="row">
- 
                 <?php
                 include_once "../../Model/articles.php";
                 include_once "../../Controller/articleC.php";
                 include_once "../../config.php";
                 $Art=new articleC();
-                        $Arts=$Art->afficherArticles();
+                        $Arts=$Art->TriArticlesPlus();
                         foreach ($Arts as $aux) {
                 ?>
                 <div class="col-md-6 col-lg-4 mb-5">
                     <div class="categorie text-center">
                         <a class="d-block mb-0 thumbnail" >
-                         <img class="img-fluid w-50" src="assets/<?php echo $aux["ImageArticle"];?>" alt="Image" >
+                         <img class="img-fluid" src="assets/<?php echo $aux["ImageArticle"];?>" alt="Image" >
                           </a>
                         <div class="categorie-body">
                             <h3 class="heading mb-0">
