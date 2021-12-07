@@ -45,22 +45,7 @@
     <link rel="stylesheet" href="css/cart.css">
 
     <title>CodeGreen. | Cart</title>
-    <style>
-        /****************** qty *****************/
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
 
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-/**************************************************/
-    </style>
 </head>
 <body>
         <header>
@@ -173,10 +158,13 @@ input[type=number] {
                         $subtotal = 0;
                         $shipping = 10;
                         $grand_total = 0;
+
                         while($row = $result->fetch_assoc()):
+
                         ?>
                         <tr>
                             <input type="hidden" class="pid" value="<?= $row['id'] ?>">
+                            <input type="hidden" class="pquantite" value="<?= $row['product_qty'] ?>">
                             <td class="image" data-title="No"><img src="<?= $row['product_image'] ?>" alt="#" width="100px" height="100px"></td>
                             <td class="product-des" data-title="Description">
                                 <p class="product-name"><a href="#"><?= $row['product_name'] ?></a></p>
@@ -186,7 +174,7 @@ input[type=number] {
                             <input type="hidden" class="pprice" value="<?= $row['product_price'] ?>">
                             <td class="qty" data-title="Qty"><!-- Input Order -->
                                 <div class="input-group">
-                                    <input type="number" name="quant[1]" min="1" class="input-number itemQty"  data-min="1" data-max="100" 
+                                    <input type="number" name="quant[1]" min="1" max="<?= $row['product_qty'] ?>"  class="input-number itemQty"  data-min="1" data-max="<?= $row['product_qty'] ?>"
                                     value="<?= $row['qty'] ?>">
                                 </div>
                                 <!--/ End Input Order -->
@@ -198,7 +186,8 @@ input[type=number] {
                         <?php 
                             $subtotal += $row['totalprice'];
                         ?>
-                        <?php endwhile; ?>
+                        <?php 
+                    endwhile; ?>
                     </tbody>
                 </table>
                 <!--/ End Shopping Summery -->
@@ -232,7 +221,7 @@ input[type=number] {
                                     <li class="last">You Pay<span>$<?= number_format($grand_total,2) ?></span></li>
                                 </ul>
                                 <div class="button5">
-                                    <a href="#" class="btn">Checkout</a>
+                                    <a href="checkout.php" class="btn">Checkout</a>
                                     <a href="index.php" class="btn">Continue shopping</a>
                                 </div>
                             </div>
