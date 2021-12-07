@@ -102,8 +102,40 @@
                 $e->getMessage();
             }
         }
+        public function TriArticlesAd(){
+            try{
+                $pdo=getConnexion();
+                $query=$pdo->prepare("SELECT * FROM article ORDER BY NomArticle ");
+                $query->execute();
+                return $query->fetchAll();
+            }
+            catch (PDOException $e) {
+                $e->getMessage();
+            }
+        }
+        public function TriArticlesPlus(){
+            try{
+                $pdo=getConnexion();
+                $query=$pdo->prepare("SELECT * FROM article ORDER BY PrixArticle");
+                $query->execute();
+                return $query->fetchAll();
+            }
+            catch (PDOException $e) {
+                $e->getMessage();
+            }
+        }
 
-        
+        public function TriArticlesMoins(){
+            try{
+                $pdo=getConnexion();
+                $query=$pdo->prepare("SELECT * FROM article ORDER BY PrixArticle DESC");
+                $query->execute();
+                return $query->fetchAll();
+            }
+            catch (PDOException $e) {
+                $e->getMessage();
+            }
+        }
  
        
        

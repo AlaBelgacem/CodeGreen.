@@ -96,7 +96,18 @@
             }
         }
 
-       
+        public function TriCategoriesAd(){
+            try{
+                $pdo=getConnexion();
+                $query=$pdo->prepare('SELECT * FROM categorie ORDER BY NomCategorie DESC');
+                $query->execute();
+                return $query->fetchAll();
+            }
+            catch (PDOException $e) {
+                $e->getMessage();
+            }
+
+        } 
 
        
         
