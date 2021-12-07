@@ -20,6 +20,50 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <style>
+    /* MODAL STARTS HERE */
+
+.bg-modal {
+	background-color: rgba(0, 0, 0, 0.8);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-contents {
+	height: 300px;
+	width: 500px;
+	background-color: white;
+	text-align: center;
+	padding: 20px;
+	position: relative;
+	border-radius: 4px;
+}
+
+input {
+	margin: 15px auto;
+	display: block;
+	width: 50%;
+	padding: 8px;
+	border: 1px solid gray;
+}
+.close {
+	position: absolute;
+	top: 0;
+	right: 10px;
+	font-size: 42px;
+	color: #333;
+	transform: rotate(45deg);
+	cursor: pointer;
+}
+.close:hover {
+  color: #666;
+}
+  </style>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -65,7 +109,7 @@
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
-            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2" style="background-color : green; ">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                 <h6 class="text-white text-capitalize ps-3">Products</h6>
               </div>
@@ -142,7 +186,94 @@
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-0">
-                
+              <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Order ID</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">First Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Last Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone Number</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Address</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Payment Mode</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Products Bought</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount Paid</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                      <th class="text-secondary opacity-7"></th>
+                    </tr>
+                  </thead>
+                  <?php 
+                        
+                        require '../config.php';
+                        $stmt2 = $conn->prepare("SELECT * FROM orders");
+                        $stmt2->execute();
+                        $result2 = $stmt2->get_result();
+                        $subtotal = 0;
+                        $shipping = 10;
+                        $grand_total = 0;
+                        while($row2 = $result2->fetch_assoc()):
+                        ?>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex px-2 py-1">
+                          
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm"><?php echo $row2["id"];?></h6>
+                            
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $row2['first_name'];?></p>
+
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $row2['last_name'];?></p>
+
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $row2['email'];?></p>
+
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $row2['phone'];?></p>
+
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $row2['address'];?></p>
+
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row2["pmode"];?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row2["products"];?></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row2["amount_paid"]."DT";?></span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <?php
+                          if($row2["status"]==1){
+                            echo '<a href="status.php?id='.$row2['id'].'&status=2&email='.$row2['email'].'" class="btn btn-outline-primary btn-sm mb-0">
+                            Pending</a>';
+                          }
+                          else if($row2["status"]==2){
+                            echo '<a href="status.php?id='.$row2['id'].'&status=3&email='.$row2['email'].'" class="btn btn-outline-primary btn-sm mb-0">
+                            Delivered</a>';
+                          }
+                          else{
+                            echo '<a href="status.php?id='.$row2['id'].'&status=1&email='.$row2['email'].'" class="btn btn-outline-primary btn-sm mb-0">
+                            Cancelled</a>';
+                          }
+                        ?>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                  <?php endwhile; ?>
+                </table>
               </div>
             </div>
           </div>
@@ -224,6 +355,10 @@
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+
+
+
+
   </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
